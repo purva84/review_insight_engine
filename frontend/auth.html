@@ -9,8 +9,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --orange: #F26522;
-      --orange-dark: #D4511A;
+      --orange: #F97316;
+      --orange-dark: #EA6B0E;
       --black: #1A1A1A;
       --gray: #6B7280;
       --light-bg: #F4F4F4;
@@ -39,20 +39,15 @@
       user-select: none;
     }
 
-    .logo-icon {
-      width: 52px; height: 52px;
-      background: var(--orange);
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
+    .brand-name {
       font-family: 'Sora', sans-serif;
       font-weight: 800;
       font-size: 22px;
-      color: white;
+      color: var(--orange);
       margin-bottom: 20px;
-      box-shadow: 0 4px 16px rgba(242,101,34,0.3);
+      letter-spacing: -0.5px;
+      user-select: none;
     }
-
-    .page-title {
       font-family: 'Sora', sans-serif;
       font-weight: 800;
       font-size: 28px;
@@ -176,6 +171,40 @@
       box-shadow: 0 8px 20px rgba(242,101,34,0.3);
     }
 
+    /* ── FEATURE PILLS ── */
+    /* .feature-pills {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(242,101,34,0.08);
+      color: var(--orange);
+      border: 1.5px solid rgba(242,101,34,0.2);
+      border-radius: 100px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      user-select: none;
+    }
+
+    .pill svg {
+      width: 12px; height: 12px;
+      stroke: var(--orange);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    } */
+
     /* ── TERMS ── */
     .terms {
       text-align: center;
@@ -193,6 +222,30 @@
 
     .terms a:hover { text-decoration: underline; }
 
+    /* ── PROCESSING STATE ── */
+    .btn-submit.processing {
+      opacity: 0.85;
+      cursor: not-allowed;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
     /* ── FADE ANIM ── */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(12px); }
@@ -206,7 +259,7 @@
 
   <!-- LOGO + HEADING -->
   <div class="logo-wrap">
-    <div class="logo-icon">I</div>
+    <div class="brand-name">InsightLens</div>
     <h1 class="page-title" id="pageTitle">Create an Account</h1>
     <p class="page-sub" id="pageSub">Join InsightLens to start analyzing your reviews</p>
   </div>
@@ -239,33 +292,73 @@
     </div>
 
     <!-- SUBMIT -->
-    <button class="btn-submit" id="submitBtn">Create Account</button>
-  </div>
+    <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">Create Account</button>
+
+    <!-- ORANGE FEATURE PILLS -->
+    <!-- <div class="feature-pills">
+      <div class="pill">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Context-aware analysis
+      </div>
+      <div class="pill">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Instant insights
+      </div>
+      <div class="pill">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Actionable results
+      </div>
+    </div>
+  </div> -->
 
   <!-- TERMS -->
   <p class="terms">By continuing, you agree to our <a href="#">Terms of Service</a></p>
 
   <script>
+    let currentTab = 'signup';
+
     function switchTab(tab) {
-      const loginTab   = document.getElementById('tabLogin');
-      const signupTab  = document.getElementById('tabSignup');
-      const title      = document.getElementById('pageTitle');
-      const sub        = document.getElementById('pageSub');
-      const submitBtn  = document.getElementById('submitBtn');
+      const loginTab  = document.getElementById('tabLogin');
+      const signupTab = document.getElementById('tabSignup');
+      const title     = document.getElementById('pageTitle');
+      const sub       = document.getElementById('pageSub');
+      const submitBtn = document.getElementById('submitBtn');
+      const pills     = document.querySelector('.feature-pills');
+
+      currentTab = tab;
 
       if (tab === 'login') {
         loginTab.classList.add('active');
         signupTab.classList.remove('active');
-        title.textContent     = 'Welcome Back';
-        sub.textContent       = 'Enter your credentials to access your insights';
-        submitBtn.textContent = 'Access Dashboard';
+        title.textContent      = 'Welcome Back';
+        sub.textContent        = 'Enter your credentials to access your insights';
+        submitBtn.textContent  = 'Access Dashboard';
+        pills.style.display    = 'none';
       } else {
         signupTab.classList.add('active');
         loginTab.classList.remove('active');
-        title.textContent     = 'Create an Account';
-        sub.textContent       = 'Join InsightLens to start analyzing your reviews';
-        submitBtn.textContent = 'Create Account';
+        title.textContent      = 'Create an Account';
+        sub.textContent        = 'Join InsightLens to start analyzing your reviews';
+        submitBtn.textContent  = 'Create Account';
+        pills.style.display    = 'flex';
       }
+    }
+
+    function handleSubmit() {
+      const btn = document.getElementById('submitBtn');
+
+      // Show processing state
+      btn.classList.add('processing');
+      btn.innerHTML = '<div class="spinner"></div> Processing...';
+
+      // Simulate processing then redirect
+      setTimeout(() => {
+        if (currentTab === 'signup') {
+          window.location.href = 'setup.html';
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+      }, 1800);
     }
   </script>
 
