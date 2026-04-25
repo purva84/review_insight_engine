@@ -1,7 +1,7 @@
 # app/api/routes/reviews.py
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from app.services.llm_services import analyze_reviews
+from app.services.pipeline import run_pipeline
 from app.db.repositories.review_repo import (
     save_reviews, get_latest_analysis, get_reviews_by_business
 )
@@ -16,26 +16,17 @@ class ReviewInput(BaseModel):
 @router.post("/analyze")
 def analyze(data: ReviewInput):
     try:
-        # Fetch business context
-        business = get_business(data.business_id)
-        if not business:
-            raise HTTPException(status_code=404, detail="Business not found")
+        if not data.reviews:
+            raise HTTPException(status_code=400, detail="No reviews provided")
+        if len(data.reviews) < 3:
+            raise HTTPException(status_code=400, detail="Minimum 3 reviews required")
 
-        # Run LLM analysis
-        result = analyze_reviews(
-            reviews=data.reviews,
-            business_type=business["business_type"],
-            focus_areas=business["focus_areas"]
+        result = run_pipeline(
+            business_id=data.business_id,
+            reviews=data.reviews
         )
+        return {"success": True, "result": result}
 
-        # Save to MongoDB
-        saved = save_reviews(data.business_id, data.reviews, result)
-
-        return {
-            "success":   True,
-            "record_id": saved["record_id"],
-            "analysis":  result
-        }
     except HTTPException:
         raise
     except Exception as e:
