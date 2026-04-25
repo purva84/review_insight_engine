@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InsightLens – Turn Reviews into Business Insights</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #F26522;
+      --orange-light: #FFF0E8;
+      --orange-dark: #D4511A;
+      --black: #1A1A1A;
+      --gray: #6B7280;
+      --light-bg: #F7F7F7;
+      --white: #FFFFFF;
+      --border: #E5E7EB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 64px;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: white;
+      letter-spacing: -1px;
+    }
+
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--black);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-ghost {
+      background: none;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black);
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .btn-ghost:hover { background: var(--light-bg); }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 90px 24px 60px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1.1;
+      max-width: 700px;
+      margin-bottom: 24px;
+      color: var(--black);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 span { color: var(--orange); }
+
+    .hero p {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--gray);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .btn-hero-primary {
+      background: var(--orange);
+      color: white;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-hero-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(242,101,34,0.35);
+    }
+
+    /* ── FEATURE CARDS ── */
+    .features {
+      padding: 0 64px 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1200px;
+      margin: -40px auto 0;
+    }
+
+    .feature-card {
+      background: var(--light-bg);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      width: 48px; height: 48px;
+      background: white;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--orange); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .feature-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: var(--black);
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--light-bg);
+      padding: 96px 64px;
+      text-align: center;
+    }
+
+    .section-tag {
+      font-family: 'Sora', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 4vw, 44px);
+      color: var(--black);
+      margin-bottom: 64px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .step-number {
+      width: 52px; height: 52px;
+      background: var(--orange);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .step h4 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--black);
+    }
+
+    .step p { font-size: 14px; color: var(--gray); line-height: 1.6; max-width: 240px; }
+
+    /* ── USE CASES ── */
+    .usecases {
+      padding: 96px 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .usecase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .usecase-card {
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: left;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .usecase-card:hover { border-color: var(--orange); transform: translateY(-3px); }
+
+    .usecase-emoji { font-size: 28px; margin-bottom: 14px; }
+
+    .usecase-card h4 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--black);
+    }
+
+    .usecase-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: var(--black);
+      color: white;
+      padding: 80px 64px;
+      text-align: center;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 4vw, 44px);
+      margin-bottom: 16px;
+    }
+
+    .cta-banner h2 span { color: var(--orange); }
+
+    .cta-banner p {
+      color: #9CA3AF;
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: #6B7280;
+      border-top: 1px solid #2A2A2A;
+      padding: 24px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .footer-logo .logo-icon { width: 28px; height: 28px; font-size: 12px; }
+    .footer-logo .logo-text { font-size: 15px; }
+
+    /* ── NO SELECT on key content ── */
+    h1, h2, h3, h4, .section-tag, .section-title, .powered-badge,
+    .feature-card h3, .step h4, .usecase-card h4, .cta-banner h2,
+    .logo-text, nav, footer {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .features, .steps, .usecase-grid { grid-template-columns: 1fr; }
+      .features { padding: 40px 24px 64px; }
+      .how-section, .usecases { padding: 64px 24px; }
+      .cta-banner { padding: 60px 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="logo">
+      <span class="logo-text">InsightLens</span>
+    </a>
+    <div class="nav-actions">
+      <a href="#" class="btn-ghost">Login</a>
+      <a href="#" class="btn-primary">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 style="user-select:none;">Turn Customer Reviews into <span>Business Insights</span></h1>
+    <p style="user-select:none;">Upload your customer reviews and get actionable insights, sentiment analysis, and improvement recommendations instantly.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-hero-primary">Get Started for Free →</a>
+    </div>
+  </section>
+
+  <!-- FEATURE CARDS -->
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="10" width="4" height="11"/><rect x="10" y="6" width="4" height="15"/><rect x="17" y="3" width="4" height="18"/></svg>
+      </div>
+      <h3>Deep Sentiment</h3>
+      <p>Go beyond basic scores to understand true customer emotions and the nuances behind every review.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Identity Patterns</h3>
+      <p>Discover who your best customers are, what they love, and what keeps them coming back for more.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <h3>Instant Action</h3>
+      <p>Get specific, prioritized recommendations to fix the right issues today — not months from now.</p>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="section-tag">How It Works</div>
+    <h2 class="section-title">From Raw Reviews to Clear Decisions</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h4>Set Business Context</h4>
+        <p>Tell us your business type and what matters most — delivery, quality, price, or experience.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h4>Upload Reviews</h4>
+        <p>Paste or upload customer reviews from any platform — Google, Yelp, Amazon, and more.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h4>Get Actionable Insights</h4>
+        <p>Receive root cause analysis, business impact scores, and specific recommendations instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="usecases">
+    <div class="section-tag">Real-World Use Cases</div>
+    <h2 class="section-title">Built for Every Business</h2>
+    <div class="usecase-grid">
+      <div class="usecase-card">
+        <div class="usecase-emoji">🍕</div>
+        <h4>Restaurants</h4>
+        <p>Surface delivery delays, food quality issues, and service gaps before they damage your reputation.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-emoji">🛍️</div>
+        <h4>E-Commerce</h4>
+        <p>Identify product defects, return patterns, and shipping complaints that hurt repeat purchases.</p>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-emoji">💼</div>
+        <h4>Service Businesses</h4>
+        <p>Uncover customer experience gaps and staff-related issues that drive churn and low ratings.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <h2>Ready to <span>understand</span> your customers?</h2>
+    <p>Stop guessing. Start fixing what actually matters to your business.</p>
+    <a href="#" class="btn-hero-primary" style="display:inline-flex;">Get Started for Free →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo">
+      <span class="logo-text">InsightLens</span>
+    </a>
+    <span>© 2026 InsightLens. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>

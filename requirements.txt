@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pymongo
+python-dotenv
+requests
+bertopic
+scikit-learn
+sentence-transformers
+groq
