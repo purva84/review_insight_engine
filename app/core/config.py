@@ -14,11 +14,11 @@ class Config:
     GROQ_MAX_TOKENS: int = 1500
     GROQ_TEMPERATURE: float = 0.2
 
-    # --- HuggingFace (for sentiment + embeddings later) ---
+    # --- HuggingFace (for sentiment + embeddings ) ---
     HF_API_KEY: str   = os.getenv("HUGGINGFACEHUB_API_TOKEN", "")
     HF_API_URL: str   = "https://api-inference.huggingface.co/models"
 
-    # --- MongoDB (for later) ---
+    # --- MongoDB ---
     MONGO_URI: str    = os.getenv("MONGO_URI", "mongodb://localhost:27017")
     MONGO_DB: str     = os.getenv("MONGO_DB", "review_insight_engine")
 

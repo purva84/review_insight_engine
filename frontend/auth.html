@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InsightLens – Login / Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #F26522;
+      --orange-dark: #D4511A;
+      --black: #1A1A1A;
+      --gray: #6B7280;
+      --light-bg: #F4F4F4;
+      --white: #FFFFFF;
+      --border: #E5E7EB;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--light-bg);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    /* ── LOGO ── */
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+      user-select: none;
+    }
+
+    .logo-icon {
+      width: 52px; height: 52px;
+      background: var(--orange);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: white;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(242,101,34,0.3);
+    }
+
+    .page-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: var(--black);
+      margin-bottom: 8px;
+      user-select: none;
+    }
+
+    .page-sub {
+      font-size: 15px;
+      color: var(--gray);
+      user-select: none;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+      margin-top: 28px;
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--light-bg);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .tab {
+      padding: 10px;
+      text-align: center;
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      user-select: none;
+      border: none;
+      background: none;
+    }
+
+    .tab.active {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    /* ── FORM ── */
+    .field { margin-bottom: 20px; }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 8px;
+      user-select: none;
+    }
+
+    .field-label svg {
+      width: 15px; height: 15px;
+      stroke: var(--black);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .field input::placeholder { color: #B0B7C3; }
+
+    .field input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(242,101,34,0.1);
+    }
+
+    /* ── SUBMIT BTN ── */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-family: 'Sora', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      user-select: none;
+    }
+
+    .btn-submit:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(242,101,34,0.3);
+    }
+
+    /* ── TERMS ── */
+    .terms {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray);
+      margin-top: 24px;
+      user-select: none;
+    }
+
+    .terms a {
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .terms a:hover { text-decoration: underline; }
+
+    /* ── FADE ANIM ── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card { animation: fadeIn 0.4s ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGO + HEADING -->
+  <div class="logo-wrap">
+    <div class="logo-icon">I</div>
+    <h1 class="page-title" id="pageTitle">Create an Account</h1>
+    <p class="page-sub" id="pageSub">Join InsightLens to start analyzing your reviews</p>
+  </div>
+
+  <!-- CARD -->
+  <div class="card">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab" id="tabLogin" onclick="switchTab('login')">Login</button>
+      <button class="tab active" id="tabSignup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="field">
+      <div class="field-label">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        Email Address
+      </div>
+      <input type="email" id="emailInput" placeholder="name@company.com" autocomplete="email"/>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="field">
+      <div class="field-label">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Password
+      </div>
+      <input type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+
+    <!-- SUBMIT -->
+    <button class="btn-submit" id="submitBtn">Create Account</button>
+  </div>
+
+  <!-- TERMS -->
+  <p class="terms">By continuing, you agree to our <a href="#">Terms of Service</a></p>
+
+  <script>
+    function switchTab(tab) {
+      const loginTab   = document.getElementById('tabLogin');
+      const signupTab  = document.getElementById('tabSignup');
+      const title      = document.getElementById('pageTitle');
+      const sub        = document.getElementById('pageSub');
+      const submitBtn  = document.getElementById('submitBtn');
+
+      if (tab === 'login') {
+        loginTab.classList.add('active');
+        signupTab.classList.remove('active');
+        title.textContent     = 'Welcome Back';
+        sub.textContent       = 'Enter your credentials to access your insights';
+        submitBtn.textContent = 'Access Dashboard';
+      } else {
+        signupTab.classList.add('active');
+        loginTab.classList.remove('active');
+        title.textContent     = 'Create an Account';
+        sub.textContent       = 'Join InsightLens to start analyzing your reviews';
+        submitBtn.textContent = 'Create Account';
+      }
+    }
+  </script>
+
+</body>
+</html>
